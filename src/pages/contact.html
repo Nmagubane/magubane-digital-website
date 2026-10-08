@@ -1,0 +1,189 @@
+<!--meta
+{
+  "path": "/contact/",
+  "title": "Request a quote | Magubane Digital",
+  "description": "Tell us about your business and what you need. You'll get a written quotation for your website, email, Google profile or IT setup. Or chat to Neo on WhatsApp.",
+  "scripts": ["quote"],
+  "jsonld": true,
+  "ogImage": "/og/contact.png"
+}
+-->
+<section class="page-head">
+  <div class="wrap">
+    <h1>Request a quote</h1>
+    <p class="lead">Four short steps. Neo reads every request and replies within {{replyTime}} with questions or a written quotation.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0" aria-label="Quote request">
+  <div class="wrap quote-grid">
+    <div>
+      <div class="form-status is-success" id="quote-success" hidden>
+        <div class="status-icon" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M4 10.5l4 4 8-8.5" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h2 tabindex="-1">Quote request sent</h2>
+        <p>Thanks, <span data-name>there</span>. Neo will reply within {{replyTime}}, using the contact method you chose. If it's urgent, send a WhatsApp as well.</p>
+        <div class="actions"><a class="btn btn-secondary" href="/">Back to the home page</a></div>
+      </div>
+
+      <div class="form-status is-error" id="quote-error" hidden>
+        <div class="status-icon" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M10 5v6M10 14.5v.5" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg></div>
+        <h2 tabindex="-1">Your request didn't send</h2>
+        <p>The form service didn't respond, so nothing was sent. Your answers are still filled in below. Send the same details on WhatsApp or by email instead; the message is written for you.</p>
+        <div class="actions">
+          <a class="btn btn-primary" data-fallback="wa" href="{{wa}}" target="_blank" rel="noopener">Send on WhatsApp</a>
+          <a class="btn btn-secondary" data-fallback="email" href="mailto:{{attr:email}}">Send by email</a>
+          <button class="btn btn-secondary" type="button" data-retry>Try the form again</button>
+        </div>
+      </div>
+
+      <form class="quote-form on-first" id="quote-form" method="POST"
+            action="https://formsubmit.co/{{attr:formsubmitId}}"
+            data-endpoint="https://formsubmit.co/ajax/{{attr:formsubmitId}}"
+            data-wa="{{attr:phoneIntl}}" data-email="{{attr:email}}">
+        <input type="hidden" name="_subject" value="Quote request from the website">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_next" value="{{siteurl}}/contact/sent/">
+        <input type="hidden" name="Package interest" value="">
+        <div class="hp" aria-hidden="true">
+          <label for="f-honey">Leave this field empty</label>
+          <input id="f-honey" type="text" name="_honey" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="progress" aria-hidden="true">
+          <div class="progress-bar"><span class="on"></span><span></span><span></span><span></span></div>
+        </div>
+
+        <div class="error-summary" tabindex="-1" hidden>
+          <h2>Check your answers</h2>
+          <ul></ul>
+        </div>
+
+        <fieldset class="step" tabindex="-1">
+          <legend>Step 1 of 4: What kind of business is it?</legend>
+          <p class="step-hint">Pick the closest match.</p>
+          <div data-field="Business type">
+            <div class="choices two">
+              <label class="choice"><input id="f-type-1" type="radio" name="Business type" value="Professional practice" required><span><span>Professional practice<small>Accounting, legal, medical, consulting</small></span></span></label>
+              <label class="choice"><input id="f-type-2" type="radio" name="Business type" value="Trade or home services"><span><span>Trade or home services<small>Plumbing, electrical, building, cleaning</small></span></span></label>
+              <label class="choice"><input id="f-type-3" type="radio" name="Business type" value="Retail, food or personal care"><span><span>Retail, food or personal care<small>Shops, restaurants, salons, studios</small></span></span></label>
+              <label class="choice"><input id="f-type-4" type="radio" name="Business type" value="Start-up"><span><span>Start-up<small>New business, or launching soon</small></span></span></label>
+              <label class="choice"><input id="f-type-5" type="radio" name="Business type" value="Other"><span><span>Something else<small>Tell us in the last step</small></span></span></label>
+            </div>
+            <p class="error-msg" id="err-type"></p>
+          </div>
+        </fieldset>
+
+        <fieldset class="step" tabindex="-1">
+          <legend>Step 2 of 4: What do you need?</legend>
+          <p class="step-hint">Choose everything that applies.</p>
+          <p class="summary-note package-note" hidden></p>
+          <div data-field="Services needed">
+            <div class="choices two">
+              <label class="choice"><input id="f-svc-1" type="checkbox" name="Services needed" value="Website"><span><span>Website<small>New site or a rebuild</small></span></span></label>
+              <label class="choice"><input id="f-svc-2" type="checkbox" name="Services needed" value="Website care plan"><span><span>Website care plan<small>Hosting, monitoring, updates</small></span></span></label>
+              <label class="choice"><input id="f-svc-3" type="checkbox" name="Services needed" value="Business email"><span><span>Business email<small>Microsoft 365 on your domain</small></span></span></label>
+              <label class="choice"><input id="f-svc-4" type="checkbox" name="Services needed" value="Google Business Profile"><span><span>Google Business Profile<small>Maps and local search</small></span></span></label>
+              <label class="choice"><input id="f-svc-5" type="checkbox" name="Services needed" value="Domains and DNS"><span><span>Domains and DNS<small>Register, move or fix</small></span></span></label>
+              <label class="choice"><input id="f-svc-6" type="checkbox" name="Services needed" value="Custom software or automation"><span><span>Custom software or automation<small>Remove repetitive admin</small></span></span></label>
+              <label class="choice"><input id="f-svc-7" type="checkbox" name="Services needed" value="Not sure yet"><span><span>Not sure yet<small>Describe the problem later</small></span></span></label>
+            </div>
+            <p class="error-msg" id="err-svc"></p>
+          </div>
+        </fieldset>
+
+        <fieldset class="step" tabindex="-1">
+          <legend>Step 3 of 4: What budget do you have in mind?</legend>
+          <p class="step-hint">For the once-off setup, excluding VAT. It helps us suggest the right package; it isn't a commitment.</p>
+          <div data-field="Budget">
+            <div class="choices">
+              <label class="choice"><input id="f-bud-1" type="radio" name="Budget" value="Under R11,500"><span><span>Under R11,500<small>We'll tell you honestly what fits</small></span></span></label>
+              <label class="choice"><input id="f-bud-2" type="radio" name="Budget" value="R11,500 to R15,000"><span><span>R11,500 to R15,000<small>Around the Launch package</small></span></span></label>
+              <label class="choice"><input id="f-bud-3" type="radio" name="Budget" value="R15,000 to R26,500"><span><span>R15,000 to R26,500<small>Around the Growth Partner package</small></span></span></label>
+              <label class="choice"><input id="f-bud-4" type="radio" name="Budget" value="Over R26,500"><span><span>Over R26,500<small>Premium, or a larger project</small></span></span></label>
+              <label class="choice"><input id="f-bud-5" type="radio" name="Budget" value="Not sure yet"><span><span>Not sure yet</span></span></label>
+            </div>
+            <p class="error-msg" id="err-bud"></p>
+          </div>
+          <div class="field">
+            <label for="f-start">When would you like to start? <span class="opt">(optional)</span></label>
+            <select id="f-start" name="Start">
+              <option value="">Choose one</option>
+              <option>As soon as possible</option>
+              <option>Within a month</option>
+              <option>In one to three months</option>
+              <option>Just exploring for now</option>
+            </select>
+          </div>
+        </fieldset>
+
+        <fieldset class="step" tabindex="-1">
+          <legend>Step 4 of 4: How can Neo reach you?</legend>
+          <div class="field-row">
+            <div class="field" data-field="name">
+              <label for="f-name">Your name</label>
+              <input id="f-name" name="name" type="text" autocomplete="name" required>
+              <p class="error-msg" id="err-name"></p>
+            </div>
+            <div class="field">
+              <label for="f-biz">Business name <span class="opt">(optional)</span></label>
+              <input id="f-biz" name="Business name" type="text" autocomplete="organization">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field" data-field="email">
+              <label for="f-email">Email address</label>
+              <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" spellcheck="false" required>
+              <p class="error-msg" id="err-email"></p>
+            </div>
+            <div class="field" data-field="WhatsApp number">
+              <label for="f-phone">WhatsApp or phone number</label>
+              <input id="f-phone" name="WhatsApp number" type="tel" autocomplete="tel" inputmode="tel" aria-describedby="hint-phone" required>
+              <p class="hint" id="hint-phone">For example 082 123 4567</p>
+              <p class="error-msg" id="err-phone"></p>
+            </div>
+          </div>
+          <div class="field" data-field="Preferred contact">
+            <span class="label" id="lbl-pref">How should Neo contact you?</span>
+            <div class="choices two" role="radiogroup" aria-labelledby="lbl-pref" style="margin-top:4px">
+              <label class="choice"><input id="f-pref-1" type="radio" name="Preferred contact" value="WhatsApp" checked><span><span>WhatsApp</span></span></label>
+              <label class="choice"><input id="f-pref-2" type="radio" name="Preferred contact" value="Email"><span><span>Email</span></span></label>
+              <label class="choice"><input id="f-pref-3" type="radio" name="Preferred contact" value="Phone call"><span><span>Phone call</span></span></label>
+            </div>
+            <p class="error-msg" id="err-pref"></p>
+          </div>
+          <div class="field">
+            <label for="f-msg">Anything else we should know? <span class="opt">(optional)</span></label>
+            <textarea id="f-msg" name="Message" rows="4"></textarea>
+          </div>
+          <p class="privacy-line">Your details are used only to reply to this request. They're sent through FormSubmit, our form service. Read the <a href="/privacy/">privacy notice</a>.</p>
+        </fieldset>
+
+        <div class="form-nav">
+          <button class="btn btn-secondary btn-back" type="button">Back</button>
+          <button class="btn btn-primary btn-next" type="button">Continue</button>
+          <button class="btn btn-primary btn-send" type="submit">Send quote request</button>
+        </div>
+      </form>
+    </div>
+
+    <aside class="contact-aside" aria-label="Other ways to get in touch">
+      <div class="aside-card">
+        <h2>Prefer to talk?</h2>
+        <p class="muted small" style="margin-top:6px">Message Neo directly. Same reply, no form.</p>
+        <div class="actions" style="margin-top:16px">
+          <a class="btn btn-primary" href="{{wa}}" target="_blank" rel="noopener">Chat on WhatsApp</a>
+          <a class="btn btn-secondary" href="mailto:{{attr:email}}">Email Neo</a>
+        </div>
+      </div>
+      <div class="aside-card">
+        <h2>Contact details</h2>
+        <ul style="margin-top:8px">
+          <li>WhatsApp and phone: {{phoneDisplay}}</li>
+          <li>Email: {{email}}</li>
+          <li>Hours: {{hours}}</li>
+          <li>Based in {{city}}, {{province}}</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</section>

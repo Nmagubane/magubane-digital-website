@@ -1,0 +1,23 @@
+{
+  "name": "magubane-digital-site",
+  "private": true,
+  "type": "module",
+  "description": "Magubane Digital website: static HTML, CSS and vanilla JS, built with a zero-dependency Node script.",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "build": "node build.mjs",
+    "build:drafts": "node build.mjs --drafts",
+    "check": "node build.mjs --strict",
+    "serve": "node tools/serve.mjs 8080",
+    "dev": "node build.mjs --drafts && node tools/serve.mjs 8080",
+    "images": "node tools/make-images.mjs",
+    "test": "node build.mjs && node tests/run.mjs",
+    "lighthouse": "node build.mjs && lhci autorun"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.0",
+    "@lhci/cli": "^0.14.0",
+    "playwright": "^1.48.0",
+    "sharp": "^0.33.5"
+  }
+}

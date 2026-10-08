@@ -1,28 +1,26 @@
 {
   "_readme": "Every value in [square brackets] is a placeholder. Replace it, then run `node build.mjs`. The build prints anything still unfilled and writes PLACEHOLDERS.md.",
-
   "name": "Magubane Digital",
   "legalName": "[LEGAL NAME, e.g. Magubane Digital (Pty) Ltd]",
   "legalStatus": "[LEGAL STATUS, e.g. private company]",
   "cipc": "[CIPC REGISTRATION NUMBER, registration in progress]",
   "founder": "Neo Magubane",
-
+  "bbbee": "Level 1 (100% black-owned exempted micro enterprise)",
+  "csdNumber": "[CSD SUPPLIER NUMBER, e.g. MAAA0000000]",
+  "vatStatus": "[VAT NUMBER, or 'Not VAT-registered']",
   "domain": "[DOMAIN, e.g. magubanedigital.co.za]",
   "basePath": "",
-
   "email": "[EMAIL, e.g. hello@yourdomain.co.za]",
   "phoneDisplay": "[PHONE, e.g. 082 123 4567]",
   "phoneIntl": "[PHONE IN INTERNATIONAL FORMAT, e.g. 27821234567]",
   "whatsappGreeting": "Hi Neo, I found Magubane Digital online and I'd like to chat about my business.",
-
   "hours": "[HOURS, e.g. Monday to Friday, 08:00 to 17:00]",
   "replyTime": "[REPLY TIME, e.g. one working day]",
   "city": "[CITY]",
   "province": "[PROVINCE]",
   "address": "[BUSINESS ADDRESS for ECT Act disclosure]",
-
   "formsubmitId": "[FORMSUBMIT ID: your email until activated, then the random string FormSubmit gives you]",
-
   "workPublished": false,
-  "linsWiseUrl": "[LINS-WISE LIVE URL]"
+  "linsWiseUrl": "[LINS-WISE LIVE URL]",
+  "partnersPublished": false
 }

@@ -11,9 +11,11 @@ const PORT = 8091;
 const BASE = `http://localhost:${PORT}`;
 const cfg = JSON.parse(readFileSync(join(ROOT, 'site.config.json'), 'utf8'));
 
-const PAGES = ['/', '/services/', '/services/websites/', '/services/website-care-plans/', '/services/business-email/',
-  '/services/google-business-profile/', '/services/domains-and-dns/', '/services/custom-software-and-automation/',
-  '/pricing/', '/about/', '/contact/', '/contact/sent/', '/privacy/', '/terms/'];
+const PAGES = ['/', '/services/', '/services/software-and-digital/', '/services/cloud-and-microsoft-365/',
+  '/services/managed-it-support/', '/services/networks-and-connectivity/', '/services/cybersecurity-and-popia/',
+  '/services/education-technology/', '/services/hardware-and-licence-supply/', '/services/ict-consulting-and-governance/',
+  '/sectors/education/', '/sectors/government/', '/sectors/business/', '/procurement/', '/how-we-work/',
+  '/small-business/', '/about/', '/contact/', '/contact/sent/', '/privacy/', '/terms/'];
 if (cfg.workPublished) PAGES.push('/work/', '/work/lins-wise-accountants/');
 const WIDTHS = [320, 390, 768, 1024, 1440, 1920];
 
@@ -94,6 +96,19 @@ try {
     console.log('\n(axe-core not installed; run `npm install` to include the axe scan)');
   }
 
+  // ---------- moved pages ----------
+  section('Moved pages redirect');
+  {
+    const redirects = JSON.parse(readFileSync(join(ROOT, 'redirects.json'), 'utf8'));
+    const page = await browser.newPage();
+    for (const [from, to] of Object.entries(redirects)) {
+      await page.goto(BASE + from);
+      await page.waitForURL('**' + to, { timeout: 3000 }).catch(() => {});
+      ok(new URL(page.url()).pathname === to, `${from} redirects to ${to}`);
+    }
+    await page.close();
+  }
+
   // ---------- 404 ----------
   section('404 page');
   {
@@ -159,16 +174,16 @@ try {
     await page.close();
 
     const desk = await browser.newPage({ viewport: { width: 1440, height: 900 } });
-    await desk.goto(BASE + '/pricing/');
-    await desk.focus('.nav-disclosure summary');
+    await desk.goto(BASE + '/procurement/');
+    await desk.focus('.nav-disclosure >> nth=0 >> summary');
     await desk.keyboard.press('Enter');
-    ok(await desk.locator('.nav-panel').isVisible(), 'desktop Services menu opens with Enter');
+    ok(await desk.locator('.nav-panel').first().isVisible(), 'desktop Services menu opens with Enter');
     await desk.keyboard.press('Tab');
     ok(await desk.evaluate(() => !!document.activeElement.closest('.nav-panel')), 'Tab moves into the Services menu');
     await desk.keyboard.press('Escape');
-    ok(!(await desk.locator('.nav-panel').isVisible()), 'Escape closes the desktop Services menu');
+    ok(!(await desk.locator('.nav-panel').first().isVisible()), 'Escape closes the desktop Services menu');
     ok(await desk.evaluate(() => document.activeElement.tagName === 'SUMMARY'), 'focus returns to Services');
-    ok(await desk.getAttribute('.nav-list a[href="/pricing/"]', 'aria-current') === 'page', 'current page is marked with aria-current');
+    ok(await desk.getAttribute('.nav-list a[href="/procurement/"]', 'aria-current') === 'page', 'current page is marked with aria-current');
     // Focus is visible
     const outline = await desk.evaluate(() => getComputedStyle(document.activeElement).outlineStyle);
     ok(outline !== 'none', 'focused element shows an outline');
@@ -179,7 +194,7 @@ try {
   section('Pricing selector');
   {
     const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
-    await page.goto(BASE + '/pricing/');
+    await page.goto(BASE + '/small-business/');
     ok(await page.locator('#panel-growth').isVisible(), 'Growth Partner shows by default');
     await page.focus('#tab-growth');
     await page.keyboard.press('ArrowRight');
@@ -219,15 +234,16 @@ try {
   // ---------- quote form ----------
   section('Quote form');
   const fillAll = async (page) => {
-    await page.check('#f-type-1');
+    await page.check('#f-org-1');
     await page.click('.btn-next');
     await page.check('#f-svc-1');
     await page.click('.btn-next');
     await page.check('#f-bud-2');
     await page.selectOption('#f-start', 'Within a month');
+    await page.fill('#f-ref', 'RFQ 12/2026');
     await page.click('.btn-next');
     await page.fill('#f-name', 'Thandi Test');
-    await page.fill('#f-biz', 'Test Physio');
+    await page.fill('#f-biz', 'Test Primary School');
     await page.fill('#f-email', 'thandi@example.co.za');
     await page.fill('#f-phone', '082 123 4567');
     await page.fill('#f-msg', 'Need a site & email.');
@@ -246,15 +262,15 @@ try {
     await page.click('.btn-next');
     ok(await page.locator('.error-summary').isVisible(), 'continuing with nothing chosen shows the error summary');
     ok(await page.evaluate(() => document.activeElement.classList.contains('error-summary')), 'focus moves to the error summary');
-    ok(await page.getAttribute('#f-type-1', 'aria-invalid') === 'true', 'invalid fields get aria-invalid');
-    ok((await page.getAttribute('#f-type-1', 'aria-describedby') || '').includes('err-type'), 'error message is linked to the field');
-    await page.check('#f-type-1');
+    ok(await page.getAttribute('#f-org-1', 'aria-invalid') === 'true', 'invalid fields get aria-invalid');
+    ok((await page.getAttribute('#f-org-1', 'aria-describedby') || '').includes('err-org'), 'error message is linked to the field');
+    await page.check('#f-org-1');
     ok(!(await page.locator('.error-summary').isVisible()), 'fixing the error clears the summary');
     await page.click('.btn-next');
     ok(await page.evaluate(() => document.activeElement.matches('fieldset.step')), 'focus moves to the new step');
     await page.click('.btn-back');
     ok(await page.locator('.step').nth(0).isVisible(), 'Back returns to step 1 with the answer kept');
-    ok(await page.isChecked('#f-type-1'), 'answers are kept when going back');
+    ok(await page.isChecked('#f-org-1'), 'answers are kept when going back');
     await page.click('.btn-next');
     await page.check('#f-svc-1'); await page.click('.btn-next');
     await page.check('#f-bud-2'); await page.click('.btn-next');
@@ -273,7 +289,7 @@ try {
     ok(sent.length === 1, 'one request is sent to FormSubmit');
     const p = sent[0] || {};
     ok(p.email === 'thandi@example.co.za' && p.name === 'Thandi Test', 'payload carries name and email');
-    ok(p['Services needed'] === 'Website' && p['Budget'] === 'R11,500 to R15,000' && p['Business type'] === 'Professional practice', 'payload carries all four steps');
+    ok(p['Services needed'] === 'Software and digital' && p['Budget'] === 'R50,000 to R200,000' && p['Organisation type'] === 'School', 'payload carries all four steps');
     ok(p._honey === '' && p._template === 'table' && /Quote request/.test(p._subject), 'payload has honeypot, template and subject');
     ok(await page.locator('#quote-form').isHidden(), 'success hides the form');
     ok((await page.textContent('#quote-success')).includes('Thanks, Thandi'), 'success message uses the first name');
@@ -290,7 +306,7 @@ try {
     const mail = await page.getAttribute('[data-fallback="email"]', 'href');
     const waText = decodeURIComponent(wa.split('text=')[1] || '');
     ok(wa.startsWith(`https://wa.me/${encodeURIComponent(cfg.phoneIntl)}?text=`), 'WhatsApp fallback goes to wa.me');
-    ok(waText.includes('Name: Thandi Test') && waText.includes('Services needed: Website') && waText.includes('Message: Need a site & email.'), 'WhatsApp fallback is pre-filled with the same details');
+    ok(waText.includes('Name: Thandi Test') && waText.includes('Services needed: Software and digital') && waText.includes('RFQ or tender reference: RFQ 12/2026') && waText.includes('Message: Need a site & email.'), 'WhatsApp fallback is pre-filled with the same details');
     ok(mail.startsWith('mailto:') && decodeURIComponent(mail).includes('Email: thandi@example.co.za'), 'email fallback is pre-filled with the same details');
     ok(await page.locator('#quote-form').isVisible(), 'the form stays filled in after an error');
     ok(await page.inputValue('#f-name') === 'Thandi Test', 'answers survive the error');
@@ -327,19 +343,22 @@ try {
     const page = await browser.newPage();
     await page.goto(BASE + '/contact/?package=growth');
     const checked = await page.$$eval('input[name="Services needed"]:checked', (els) => els.map((e) => e.value));
-    ok(checked.length === 4 && checked.includes('Business email'), '?package=growth pre-ticks its four services');
+    ok(checked.length === 1 && checked[0] === 'Small business package', '?package=growth pre-ticks the small business package');
+    ok(await page.isChecked('input[name="Organisation type"][value="Business or professional practice"]'), '?package= marks the organisation as a business');
     ok(await page.inputValue('input[name="Package interest"]') === 'Growth Partner', 'package interest is recorded');
-    await page.goto(BASE + '/contact/?service=email');
-    ok(await page.isChecked('#f-svc-3'), '?service=email pre-ticks business email');
+    await page.goto(BASE + '/contact/?service=networks');
+    ok(await page.isChecked('#f-svc-4'), '?service=networks pre-ticks networks');
+    await page.goto(BASE + '/contact/?org=education');
+    ok(await page.isChecked('#f-org-1'), '?org=education pre-selects school');
     await page.close();
   }
   {
     // Keyboard-only completion of step 1
     const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
     await page.goto(BASE + '/contact/');
-    await page.focus('#f-type-1');
+    await page.focus('#f-org-1');
     await page.keyboard.press('ArrowDown');
-    ok(await page.isChecked('#f-type-2'), 'radio cards work with arrow keys');
+    ok(await page.isChecked('#f-org-2'), 'radio cards work with arrow keys');
     await page.keyboard.press('Enter');
     ok(await page.locator('.step').nth(1).isVisible(), 'Enter does not submit early; Continue works from the keyboard');
     await page.close();
@@ -359,12 +378,11 @@ try {
   section('WhatsApp links');
   {
     const page = await browser.newPage();
-    await page.goto(BASE + '/services/business-email/');
+    await page.goto(BASE + '/sectors/education/');
     const links = await page.$$eval('a[href*="wa.me"]', (as) => as.map((a) => ({ href: a.href, target: a.target, rel: a.rel })));
-    ok(links.length >= 3, 'service page has several WhatsApp links');
+    ok(links.length >= 2, 'page has WhatsApp links');
     ok(links.every((l) => /^https:\/\/wa\.me\/[^?]+\?text=.+/.test(l.href)), 'every WhatsApp link has a number and a pre-filled message');
     ok(links.every((l) => l.target === '_blank' && l.rel.includes('noopener')), 'WhatsApp links open safely in a new tab');
-    ok(links.some((l) => decodeURIComponent(l.href).includes('business email')), 'service-specific greeting is used');
     await page.close();
   }
 } finally {

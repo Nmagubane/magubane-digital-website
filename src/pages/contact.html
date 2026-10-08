@@ -2,7 +2,7 @@
 {
   "path": "/contact/",
   "title": "Request a quote | Magubane Digital",
-  "description": "Tell us about your business and what you need. You'll get a written quotation for your website, email, Google profile or IT setup. Or chat to Neo on WhatsApp.",
+  "description": "Send Magubane Digital your ICT requirement or RFQ. You'll get a written quotation with scope, price and timeline, and the compliance documents you need.",
   "scripts": ["quote"],
   "jsonld": true,
   "ogImage": "/og/contact.png"
@@ -11,7 +11,7 @@
 <section class="page-head">
   <div class="wrap">
     <h1>Request a quote</h1>
-    <p class="lead">Four short steps. Neo reads every request and replies within {{replyTime}} with questions or a written quotation.</p>
+    <p class="lead">Four short steps for a requirement, an RFQ or a small business package. Neo reads every request and replies within {{replyTime}} with questions or a written quotation.</p>
   </div>
 </section>
 
@@ -59,17 +59,18 @@
         </div>
 
         <fieldset class="step" tabindex="-1">
-          <legend>Step 1 of 4: What kind of business is it?</legend>
+          <legend>Step 1 of 4: What kind of organisation is it?</legend>
           <p class="step-hint">Pick the closest match.</p>
-          <div data-field="Business type">
+          <div data-field="Organisation type">
             <div class="choices two">
-              <label class="choice"><input id="f-type-1" type="radio" name="Business type" value="Professional practice" required><span><span>Professional practice<small>Accounting, legal, medical, consulting</small></span></span></label>
-              <label class="choice"><input id="f-type-2" type="radio" name="Business type" value="Trade or home services"><span><span>Trade or home services<small>Plumbing, electrical, building, cleaning</small></span></span></label>
-              <label class="choice"><input id="f-type-3" type="radio" name="Business type" value="Retail, food or personal care"><span><span>Retail, food or personal care<small>Shops, restaurants, salons, studios</small></span></span></label>
-              <label class="choice"><input id="f-type-4" type="radio" name="Business type" value="Start-up"><span><span>Start-up<small>New business, or launching soon</small></span></span></label>
-              <label class="choice"><input id="f-type-5" type="radio" name="Business type" value="Other"><span><span>Something else<small>Tell us in the last step</small></span></span></label>
+              <label class="choice"><input id="f-org-1" type="radio" name="Organisation type" value="School" required><span><span>School<small>Public or independent</small></span></span></label>
+              <label class="choice"><input id="f-org-2" type="radio" name="Organisation type" value="Education department, college or university"><span><span>Education department, college or university</span></span></label>
+              <label class="choice"><input id="f-org-3" type="radio" name="Organisation type" value="Government department or public entity"><span><span>Government department or public entity</span></span></label>
+              <label class="choice"><input id="f-org-4" type="radio" name="Organisation type" value="Municipality"><span><span>Municipality</span></span></label>
+              <label class="choice"><input id="f-org-5" type="radio" name="Organisation type" value="Business or professional practice"><span><span>Business or professional practice</span></span></label>
+              <label class="choice"><input id="f-org-6" type="radio" name="Organisation type" value="Something else"><span><span>Something else<small>Tell us in the last step</small></span></span></label>
             </div>
-            <p class="error-msg" id="err-type"></p>
+            <p class="error-msg" id="err-org"></p>
           </div>
         </fieldset>
 
@@ -79,30 +80,48 @@
           <p class="summary-note package-note" hidden></p>
           <div data-field="Services needed">
             <div class="choices two">
-              <label class="choice"><input id="f-svc-1" type="checkbox" name="Services needed" value="Website"><span><span>Website<small>New site or a rebuild</small></span></span></label>
-              <label class="choice"><input id="f-svc-2" type="checkbox" name="Services needed" value="Website care plan"><span><span>Website care plan<small>Hosting, monitoring, updates</small></span></span></label>
-              <label class="choice"><input id="f-svc-3" type="checkbox" name="Services needed" value="Business email"><span><span>Business email<small>Microsoft 365 on your domain</small></span></span></label>
-              <label class="choice"><input id="f-svc-4" type="checkbox" name="Services needed" value="Google Business Profile"><span><span>Google Business Profile<small>Maps and local search</small></span></span></label>
-              <label class="choice"><input id="f-svc-5" type="checkbox" name="Services needed" value="Domains and DNS"><span><span>Domains and DNS<small>Register, move or fix</small></span></span></label>
-              <label class="choice"><input id="f-svc-6" type="checkbox" name="Services needed" value="Custom software or automation"><span><span>Custom software or automation<small>Remove repetitive admin</small></span></span></label>
-              <label class="choice"><input id="f-svc-7" type="checkbox" name="Services needed" value="Not sure yet"><span><span>Not sure yet<small>Describe the problem later</small></span></span></label>
+              <label class="choice"><input id="f-svc-1" type="checkbox" name="Services needed" value="Software and digital"><span><span>Software and digital<small>Systems, portals, integrations, websites</small></span></span></label>
+              <label class="choice"><input id="f-svc-2" type="checkbox" name="Services needed" value="Cloud and Microsoft 365"><span><span>Cloud and Microsoft 365<small>Accounts, email, device management</small></span></span></label>
+              <label class="choice"><input id="f-svc-3" type="checkbox" name="Services needed" value="Managed IT support"><span><span>Managed IT support<small>Service desk, on-site support, SLA</small></span></span></label>
+              <label class="choice"><input id="f-svc-4" type="checkbox" name="Services needed" value="Networks and connectivity"><span><span>Networks and connectivity<small>LAN, Wi-Fi, firewalls, cabling</small></span></span></label>
+              <label class="choice"><input id="f-svc-5" type="checkbox" name="Services needed" value="Cybersecurity and POPIA"><span><span>Cybersecurity and POPIA<small>Assessment, backup, policies, training</small></span></span></label>
+              <label class="choice"><input id="f-svc-6" type="checkbox" name="Services needed" value="Education technology"><span><span>Education technology<small>Smart classrooms, labs, platforms</small></span></span></label>
+              <label class="choice"><input id="f-svc-7" type="checkbox" name="Services needed" value="Hardware and licence supply"><span><span>Hardware and licence supply<small>Devices, equipment, licences</small></span></span></label>
+              <label class="choice"><input id="f-svc-8" type="checkbox" name="Services needed" value="ICT consulting and governance"><span><span>ICT consulting and governance<small>Plans, audits, policy, projects</small></span></span></label>
+              <label class="choice"><input id="f-svc-9" type="checkbox" name="Services needed" value="Small business package"><span><span>Small business package<small>Website, email and Google profile</small></span></span></label>
+              <label class="choice"><input id="f-svc-10" type="checkbox" name="Services needed" value="Not sure yet"><span><span>Not sure yet<small>Describe the problem later</small></span></span></label>
             </div>
             <p class="error-msg" id="err-svc"></p>
           </div>
         </fieldset>
 
         <fieldset class="step" tabindex="-1">
-          <legend>Step 3 of 4: What budget do you have in mind?</legend>
-          <p class="step-hint">For the once-off setup, excluding VAT. It helps us suggest the right package; it isn't a commitment.</p>
-          <div data-field="Budget">
-            <div class="choices">
-              <label class="choice"><input id="f-bud-1" type="radio" name="Budget" value="Under R11,500"><span><span>Under R11,500<small>We'll tell you honestly what fits</small></span></span></label>
-              <label class="choice"><input id="f-bud-2" type="radio" name="Budget" value="R11,500 to R15,000"><span><span>R11,500 to R15,000<small>Around the Launch package</small></span></span></label>
-              <label class="choice"><input id="f-bud-3" type="radio" name="Budget" value="R15,000 to R26,500"><span><span>R15,000 to R26,500<small>Around the Growth Partner package</small></span></span></label>
-              <label class="choice"><input id="f-bud-4" type="radio" name="Budget" value="Over R26,500"><span><span>Over R26,500<small>Premium, or a larger project</small></span></span></label>
-              <label class="choice"><input id="f-bud-5" type="radio" name="Budget" value="Not sure yet"><span><span>Not sure yet</span></span></label>
+          <legend>Step 3 of 4: Scope and timing</legend>
+          <p class="step-hint">All optional. If you're sending an RFQ or tender, the reference and closing date help us respond in time.</p>
+          <div class="field-row">
+            <div class="field">
+              <label for="f-ref">RFQ or tender reference <span class="opt">(optional)</span></label>
+              <input id="f-ref" name="RFQ or tender reference" type="text" autocomplete="off">
             </div>
-            <p class="error-msg" id="err-bud"></p>
+            <div class="field">
+              <label for="f-close">Closing date <span class="opt">(optional)</span></label>
+              <input id="f-close" name="Closing date" type="date">
+            </div>
+          </div>
+          <div class="field">
+            <label for="f-size">Number of sites, users or devices <span class="opt">(optional)</span></label>
+            <input id="f-size" name="Size" type="text" aria-describedby="hint-size">
+            <p class="hint" id="hint-size">For example: 1 school, 40 staff, 30 laptops</p>
+          </div>
+          <div class="field">
+            <span class="label" id="lbl-budget">Budget, excluding VAT <span class="opt">(optional)</span></span>
+            <div class="choices two" role="radiogroup" aria-labelledby="lbl-budget" style="margin-top:4px">
+              <label class="choice"><input id="f-bud-1" type="radio" name="Budget" value="Under R50,000"><span><span>Under R50,000</span></span></label>
+              <label class="choice"><input id="f-bud-2" type="radio" name="Budget" value="R50,000 to R200,000"><span><span>R50,000 to R200,000</span></span></label>
+              <label class="choice"><input id="f-bud-3" type="radio" name="Budget" value="R200,000 to R1 million"><span><span>R200,000 to R1 million</span></span></label>
+              <label class="choice"><input id="f-bud-4" type="radio" name="Budget" value="Over R1 million"><span><span>Over R1 million</span></span></label>
+              <label class="choice"><input id="f-bud-5" type="radio" name="Budget" value="Not set yet"><span><span>Not set yet</span></span></label>
+            </div>
           </div>
           <div class="field">
             <label for="f-start">When would you like to start? <span class="opt">(optional)</span></label>
@@ -125,8 +144,8 @@
               <p class="error-msg" id="err-name"></p>
             </div>
             <div class="field">
-              <label for="f-biz">Business name <span class="opt">(optional)</span></label>
-              <input id="f-biz" name="Business name" type="text" autocomplete="organization">
+              <label for="f-biz">Organisation name <span class="opt">(optional)</span></label>
+              <input id="f-biz" name="Organisation name" type="text" autocomplete="organization">
             </div>
           </div>
           <div class="field-row">

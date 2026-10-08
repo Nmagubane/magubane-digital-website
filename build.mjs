@@ -71,7 +71,7 @@ if (existsSync(join(SRC, 'static'))) {
 }
 
 // ---------- templating ----------
-const flags = { workPublished: !!cfg.workPublished || DRAFTS };
+const flags = { workPublished: !!cfg.workPublished || DRAFTS, partnersPublished: !!cfg.partnersPublished || DRAFTS };
 
 function render(html, page) {
   // includes (recursive)
@@ -144,13 +144,13 @@ function jsonLd(p) {
       addressRegion: clean(cfg.province),
       addressCountry: 'ZA',
     },
-    priceRange: 'R11,500 to R26,500 once-off',
-    description: 'Websites, business email, Google Business Profile, domains and monthly care for South African small businesses.',
+    description: 'ICT services for South African schools, public bodies and businesses: software, cloud and Microsoft 365, managed IT support, networks, cybersecurity and POPIA, education technology, hardware supply and ICT consulting.',
+    knowsAbout: ['Software development', 'Microsoft 365', 'Managed IT support', 'Network installation', 'Cybersecurity', 'POPIA', 'Education technology', 'ICT governance'],
     makesOffer: [
       ['Launch', 11500, null], ['Growth Partner', 15000, 750], ['Premium', 26500, 1650],
     ].map(([name, once, monthly]) => ({
       '@type': 'Offer',
-      name: `${name} package`,
+      name: `${name} small business package`,
       priceCurrency: 'ZAR',
       price: once,
       description: monthly ? `From R${once.toLocaleString('en-US')} once-off plus R${monthly.toLocaleString('en-US')} a month, excluding VAT` : `From R${once.toLocaleString('en-US')} once-off, excluding VAT`,
@@ -219,6 +219,16 @@ for (const p of pages) {
   const bytes = Buffer.byteLength(html) + [...new Set(refs)].reduce((s, r) => s + statSync(join(DIST, r)).size, 0);
   weights.push({ path: p.path, kb: +(bytes / 1024).toFixed(1) });
   if (bytes > 200 * 1024) problems.push(`${p.path}: ${(bytes / 1024).toFixed(1)} KB exceeds the 200 KB budget`);
+}
+
+// ---------- redirects for moved pages (GitHub Pages has no server redirects) ----------
+const redirects = existsSync(join(ROOT, 'redirects.json')) ? JSON.parse(read(join(ROOT, 'redirects.json'))) : {};
+for (const [from, to] of Object.entries(redirects)) {
+  if (pages.some((p) => p.path === from)) continue; // a real page wins
+  const target = base + to;
+  const out = join(DIST, from, 'index.html');
+  mkdirSync(dirname(out), { recursive: true });
+  writeFileSync(out, `<!doctype html><html lang="en-ZA"><head><meta charset="utf-8"><title>Moved | Magubane Digital</title><meta name="robots" content="noindex"><link rel="canonical" href="${origin}${target}"><meta http-equiv="refresh" content="0; url=${target}"></head><body><p>This page has moved to <a href="${target}">${origin}${target}</a>.</p></body></html>\n`);
 }
 
 // ---------- sitemap + robots ----------

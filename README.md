@@ -1,6 +1,8 @@
 # Magubane Digital website
 
-A static, multi-page site: plain HTML, CSS and vanilla JavaScript. It has no backend, no database, no cookies, no analytics, and stores nothing in the browser. A small Node script (no dependencies) stitches the shared header and footer into every page, fills in your details from one config file, and writes clean URLs (`/pricing/` → `pricing/index.html`).
+The website of Magubane Digital, a South African ICT services company for schools, public bodies and businesses. The site covers eight service areas, three sectors, procurement information and the small business packages.
+
+A static, multi-page site: plain HTML, CSS and vanilla JavaScript. It has no backend, no database, no cookies, no analytics, and stores nothing in the browser. A small Node script (no dependencies) stitches the shared header and footer into every page, fills in your details from one config file, and writes clean URLs (`/procurement/` → `procurement/index.html`).
 
 ```
 site.config.json     ← your phone, email, domain, CIPC number etc. (all placeholders live here)
@@ -9,7 +11,7 @@ src/
   pages/             ← one HTML file per page; edit copy here
   partials/          ← header, footer, CTA band, service rows, packages ladder, artefacts
   assets/css/        ← main.css (design tokens at the top)
-  assets/js/         ← site.js (menus), hero.js, pricing.js, quote.js
+  assets/js/         ← site.js (menus), hero.js, pricing.js (package tabs), quote.js
   assets/fonts/      ← Inter variable font, Latin subset (45 KB), self-hosted
   assets/logo/       ← logo.svg, logo-reversed.svg, monogram.svg, monogram.png
   static/            ← favicons and Open Graph images (copied to the site root)
@@ -47,7 +49,7 @@ Each file in `src/pages/` starts with a meta block:
 
 ```html
 <!--meta
-{ "path": "/pricing/", "title": "…", "description": "…", "scripts": ["pricing"], "ogImage": "/og/pricing.png" }
+{ "path": "/small-business/", "title": "…", "description": "…", "scripts": ["pricing"], "ogImage": "/og/small-business.png" }
 -->
 ```
 
@@ -57,6 +59,22 @@ The rest of the file is ordinary HTML. In it you can use:
 - `{{wa}}` for a WhatsApp link with the default greeting, or `{{wa|Your own message}}`
 - `<!--include:cta-->` to insert a partial from `src/partials/`
 - `<!--if:workPublished--> … <!--endif:workPublished-->` for content that appears only once the case study is published
+
+### Site map
+
+| Section | Pages |
+|---|---|
+| Services | `/services/` and eight service areas under `/services/<area>/` |
+| Sectors | `/sectors/education/`, `/sectors/government/`, `/sectors/business/` |
+| Buying from us | `/procurement/`, `/how-we-work/`, `/contact/` |
+| Small business | `/small-business/` (the Launch, Growth Partner and Premium packages) |
+| Company | `/about/`, `/privacy/`, `/terms/`; `/work/` and `/partners/` appear once published |
+
+Pages that moved keep working: `redirects.json` maps each old address to its new one, and the build writes a small redirect page for each (GitHub Pages has no server-side redirects).
+
+### Publishing partners
+
+`/partners/` is hidden until `"partnersPublished": true` in `site.config.json`. Only list a partner once there's a signed agreement, and edit `src/pages/partners.html` first.
 
 ### Publishing the Lins-Wise case study
 
@@ -95,7 +113,7 @@ npm run lighthouse
 - labelled form fields, skip link, `lang`, alt text
 - text contrast against WCAG AA, plus an axe-core WCAG 2.2 AA scan when installed
 - no cookies or browser storage, and no third-party requests on page load
-- keyboard use of the mobile menu, the Services menu and the pricing tabs, with focus going back where it should
+- keyboard use of the mobile menu, the Services and Sectors menus and the package tabs, with focus going back where it should
 - the hero sequence (and that reduced motion shows the finished state), plus layout shift
 - every quote form state, with FormSubmit mocked: validation, error summary, Back and Continue, success, server error, network failure, FormSubmit's `success: false`, the honeypot, the package pre-select, keyboard use and the no-JavaScript fallback
 - WhatsApp links: number, pre-filled message, new tab

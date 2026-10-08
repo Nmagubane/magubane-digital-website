@@ -1,14 +1,14 @@
-// Shared behaviour: mobile menu and the Services menu. No storage, no tracking.
+// Shared behaviour: mobile menu and the Services and Sectors menus. No storage, no tracking.
 (() => {
   const header = document.querySelector('.site-header');
   if (!header) return;
   const toggle = header.querySelector('.menu-toggle');
   const nav = document.getElementById('site-nav');
-  const services = header.querySelector('.nav-disclosure');
-  const mobile = window.matchMedia('(max-width: 959.98px)');
+  const menus = [...header.querySelectorAll('.nav-disclosure')];
+  const mobile = window.matchMedia('(max-width: 1079.98px)');
 
-  // Highlight Services when on a service page
-  if (services && location.pathname.includes('/services/')) services.classList.add('is-current');
+  // Highlight the menu for the section you're in
+  menus.forEach((d) => { if (location.pathname.includes(d.dataset.sectionPath)) d.classList.add('is-current'); });
 
   const setMenu = (open, returnFocus) => {
     toggle.setAttribute('aria-expanded', String(open));
@@ -19,32 +19,37 @@
 
   toggle.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
 
+  // Only one dropdown open at a time on wide screens
+  menus.forEach((d) => d.addEventListener('toggle', () => {
+    if (d.open && !mobile.matches) menus.forEach((o) => { if (o !== d) o.open = false; });
+  }));
+
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
-    if (services && services.open) {
-      services.open = false;
-      services.querySelector('summary').focus();
+    const open = menus.find((d) => d.open);
+    if (open) {
+      open.open = false;
+      open.querySelector('summary').focus();
       return;
     }
     if (toggle.getAttribute('aria-expanded') === 'true') setMenu(false, true);
   });
 
-  // Close the mobile menu when focus leaves the header (e.g. tabbing past the last link)
+  // Close menus when focus leaves them (e.g. tabbing past the last link)
   header.addEventListener('focusout', (e) => {
-    if (!header.contains(e.relatedTarget)) {
-      if (e.relatedTarget && toggle.getAttribute('aria-expanded') === 'true') setMenu(false);
-      if (services && services.open && !mobile.matches && e.relatedTarget) services.open = false;
-    }
+    if (!e.relatedTarget) return;
+    if (!header.contains(e.relatedTarget) && toggle.getAttribute('aria-expanded') === 'true') setMenu(false);
+    if (!mobile.matches) menus.forEach((d) => { if (d.open && !d.contains(e.relatedTarget)) d.open = false; });
   });
 
-  // Close the desktop Services menu on outside click
+  // Close the desktop dropdowns on outside click
   document.addEventListener('click', (e) => {
-    if (services && services.open && !services.contains(e.target) && !mobile.matches) services.open = false;
+    if (mobile.matches) return;
+    menus.forEach((d) => { if (d.open && !d.contains(e.target)) d.open = false; });
   });
 
   mobile.addEventListener('change', () => setMenu(false));
 
-  // Same-page links inside the menu close it
   nav.addEventListener('click', (e) => {
     if (e.target.closest('a') && mobile.matches) setMenu(false);
   });

@@ -14,16 +14,23 @@ const cfg = JSON.parse(readFileSync(join(ROOT, 'site.config.json'), 'utf8'));
 const domain = /^\[/.test(cfg.domain) ? '' : cfg.domain;
 
 const cards = [
-  ['default', 'Websites, business email and IT setup for small businesses', 'Done properly, and looked after every month.'],
-  ['websites', 'Websites', 'Custom, mobile-first, fast. WhatsApp and enquiry forms built in.'],
-  ['website-care-plans', 'Website care plans', 'Hosting, monitoring, renewals and monthly updates.'],
-  ['business-email', 'Business email on your own domain', 'Microsoft 365 with SPF, DKIM and DMARC set up properly.'],
-  ['google-business-profile', 'Google Business Profile', 'Show up on Google Maps and local search.'],
-  ['domains-and-dns', 'Domains and DNS', 'Registration, renewals and the records behind your site and email.'],
-  ['custom-software-and-automation', 'Custom software and automation', 'Small tools that take repetitive admin off your desk.'],
-  ['pricing', 'Packages and prices', 'From R11,500 once-off. Every project gets a written quotation.'],
-  ['contact', 'Request a quote', 'Four short steps, or chat to Neo on WhatsApp.'],
-  ['about', 'About Magubane Digital', 'Run by Neo Magubane, software engineer.'],
+  ['default', 'ICT services for schools, government and business', 'Software, cloud, networks, devices, security and support. B-BBEE Level 1.'],
+  ['software-and-digital', 'Software and digital', 'Systems, portals, integrations, reporting and websites, built in-house.'],
+  ['cloud-and-microsoft-365', 'Cloud and Microsoft 365', 'Accounts, email, device management and migrations, set up properly.'],
+  ['managed-it-support', 'Managed IT support', 'Service desk, on-site support and response times in writing.'],
+  ['networks-and-connectivity', 'Networks and connectivity', 'LAN, Wi-Fi, firewalls and structured cabling, tested and documented.'],
+  ['cybersecurity-and-popia', 'Cybersecurity and POPIA', 'Assessments, backup, policies and awareness training.'],
+  ['education-technology', 'Education technology', 'Smart classrooms, labs, learning platforms and teacher training.'],
+  ['hardware-and-licence-supply', 'Hardware and licence supply', 'Devices, network equipment and licences, delivered ready to use.'],
+  ['ict-consulting-and-governance', 'ICT consulting and governance', 'ICT plans, audits, policy and project management.'],
+  ['sector-education', 'ICT for schools and colleges', 'Smart classrooms, labs, platforms, devices and support.'],
+  ['sector-government', 'ICT for government', 'Systems, support, networks, security and governance.'],
+  ['sector-business', 'ICT for business', 'Managed support, Microsoft 365, security and automation.'],
+  ['procurement', 'Procurement information', 'CSD, B-BBEE, company registration and how to send an RFQ.'],
+  ['how-we-work', 'How we deliver ICT projects', 'Survey, specification, delivery, testing, handover and support.'],
+  ['small-business', 'Small business packages', 'Website, email and Google profile. From R11,500 excluding VAT.'],
+  ['contact', 'Request a quote', 'Send your requirement or RFQ, or chat to Neo on WhatsApp.'],
+  ['about', 'About Magubane Digital', 'A 100% black-owned ICT company founded by Neo Magubane.'],
 ];
 
 const html = (title, sub) => `<!doctype html><html><head><style>

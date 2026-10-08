@@ -22,14 +22,14 @@
 
   // ---------- pre-select from links like /contact/?package=growth or ?service=email ----------
   const params = new URLSearchParams(location.search);
-  const packages = {
-    launch: { name: 'Launch', services: ['Website'] },
-    growth: { name: 'Growth Partner', services: ['Website', 'Business email', 'Google Business Profile', 'Website care plan'] },
-    premium: { name: 'Premium', services: ['Website', 'Business email', 'Google Business Profile', 'Website care plan'] },
-  };
+  const packages = { launch: 'Launch', growth: 'Growth Partner', premium: 'Premium' };
   const serviceKeys = {
-    websites: 'Website', care: 'Website care plan', email: 'Business email',
-    gbp: 'Google Business Profile', domains: 'Domains and DNS', software: 'Custom software or automation',
+    software: 'Software and digital', cloud: 'Cloud and Microsoft 365', support: 'Managed IT support',
+    networks: 'Networks and connectivity', security: 'Cybersecurity and POPIA', edtech: 'Education technology',
+    hardware: 'Hardware and licence supply', consulting: 'ICT consulting and governance',
+  };
+  const orgKeys = {
+    education: 'School', government: 'Government department or public entity', business: 'Business or professional practice',
   };
   const tick = (value) => {
     const box = form.querySelector(`input[name="Services needed"][value="${value}"]`);
@@ -37,20 +37,26 @@
   };
   const pkg = packages[params.get('package')];
   if (pkg) {
-    pkg.services.forEach(tick);
-    form.querySelector('input[name="Package interest"]').value = pkg.name;
+    tick('Small business package');
+    form.querySelector('input[name="Package interest"]').value = pkg;
+    const orgBox = form.querySelector('input[name="Organisation type"][value="Business or professional practice"]');
+    if (orgBox) orgBox.checked = true;
     const note = form.querySelector('.package-note');
-    note.textContent = `You're asking about the ${pkg.name} package, so we've ticked what it includes. Change anything you like.`;
+    note.textContent = `You're asking about the ${pkg} small business package. Add anything else you need.`;
     note.hidden = false;
   }
   const svc = serviceKeys[params.get('service')];
   if (svc) tick(svc);
+  const org = orgKeys[params.get('org')];
+  if (org) {
+    const r = form.querySelector(`input[name="Organisation type"][value="${org}"]`);
+    if (r) r.checked = true;
+  }
 
   // ---------- validation ----------
   const rules = {
-    'Business type': { group: true, msg: 'Choose the type of business.' },
+    'Organisation type': { group: true, msg: 'Choose the type of organisation.' },
     'Services needed': { group: true, msg: 'Choose at least one service, or "Not sure yet".' },
-    'Budget': { group: true, msg: 'Choose a budget band, or "Not sure yet".' },
     'name': { msg: 'Enter your name.' },
     'email': { msg: 'Enter an email address like name@business.co.za.', test: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) },
     'WhatsApp number': { msg: 'Enter a South African number like 082 123 4567.', test: (v) => { const d = v.replace(/[\s()+-]/g, ''); return /^\d{9,12}$/.test(d); } },
@@ -156,12 +162,15 @@
     const lines = [
       'Quote request from the Magubane Digital website',
       d['Package interest'] && `Package: ${d['Package interest']}`,
-      `Business type: ${d['Business type'] || '-'}`,
+      `Organisation type: ${d['Organisation type'] || '-'}`,
       `Services needed: ${d['Services needed'] || '-'}`,
-      `Budget: ${d['Budget'] || '-'}`,
+      d['RFQ or tender reference'] && `RFQ or tender reference: ${d['RFQ or tender reference']}`,
+      d['Closing date'] && `Closing date: ${d['Closing date']}`,
+      d['Size'] && `Size: ${d['Size']}`,
+      d['Budget'] && `Budget: ${d['Budget']}`,
       d['Start'] && `Start: ${d['Start']}`,
       `Name: ${d.name || '-'}`,
-      d['Business name'] && `Business: ${d['Business name']}`,
+      d['Organisation name'] && `Organisation: ${d['Organisation name']}`,
       `Email: ${d.email || '-'}`,
       `WhatsApp: ${d['WhatsApp number'] || '-'}`,
       `Preferred contact: ${d['Preferred contact'] || '-'}`,
@@ -183,7 +192,7 @@
     const text = summaryText(data);
     const payload = {
       ...data,
-      _subject: `Quote request: ${data['Business name'] || data.name}`,
+      _subject: `${data['RFQ or tender reference'] ? 'RFQ ' + data['RFQ or tender reference'] : 'Quote request'}: ${data['Organisation name'] || data.name}`,
       _template: 'table',
       _captcha: 'false',
       _honey: '',

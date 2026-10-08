@@ -1,0 +1,9 @@
+{
+  "/pricing/": "/small-business/",
+  "/services/websites/": "/services/software-and-digital/",
+  "/services/custom-software-and-automation/": "/services/software-and-digital/",
+  "/services/business-email/": "/services/cloud-and-microsoft-365/",
+  "/services/domains-and-dns/": "/services/cloud-and-microsoft-365/",
+  "/services/website-care-plans/": "/small-business/",
+  "/services/google-business-profile/": "/small-business/"
+}

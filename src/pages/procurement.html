@@ -1,0 +1,85 @@
+<!--meta
+{
+  "path": "/procurement/",
+  "title": "Procurement information for buyers | Magubane Digital",
+  "description": "Supplier details for procurement teams: CSD number, B-BBEE status, company registration, tax compliance, documents and how to send Magubane Digital an RFQ.",
+  "jsonld": true,
+  "ogImage": "/og/procurement.png"
+}
+-->
+<section class="page-head">
+  <div class="wrap">
+    <h1>Procurement information</h1>
+    <p class="lead">Everything a supply chain or procurement officer needs to add Magubane Digital to a quotation or bid list, and how to send us an RFQ.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0" aria-label="Procurement information">
+  <div class="wrap">
+    <div class="block">
+      <h2>Supplier details</h2>
+      <div class="block-body">
+        <dl class="facts">
+          <dt>Registered name</dt><dd>{{legalName}}</dd>
+          <dt>Trading name</dt><dd>{{name}}</dd>
+          <dt>Company registration (CIPC)</dt><dd>{{cipc}}</dd>
+          <dt>Central Supplier Database</dt><dd>{{csdNumber}}</dd>
+          <dt>B-BBEE status</dt><dd>{{bbbee}}, by sworn affidavit</dd>
+          <dt>Tax compliance</dt><dd>Verifiable on the CSD using our supplier number</dd>
+          <dt>VAT</dt><dd>{{vatStatus}}</dd>
+          <dt>Physical address</dt><dd>{{address}}</dd>
+          <dt>Contact for quotations</dt><dd>{{founder}}, {{email}}, {{phoneDisplay}}</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2>Documents</h2>
+      <div class="block-body">
+        <p>Available on request, or attached to every quotation:</p>
+        <ul class="check-list">
+          <li>Company profile and capability statement [[PDF to be added]]</li>
+          <li>CIPC registration certificate</li>
+          <li>B-BBEE sworn affidavit (EME)</li>
+          <li>Tax compliance status PIN</li>
+          <li>Bank confirmation letter</li>
+          <li>CSD registration report</li>
+          <li>Reference letters [[as they are received]]</li>
+          <li>Certifications of key personnel [[as they are earned]]</li>
+        </ul>
+        <p class="panel-note">Request documents from <a href="mailto:{{attr:email}}">{{email}}</a>.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2>Sending us an RFQ</h2>
+      <div class="block-body">
+        <p>Email the RFQ or bid documents to <a href="mailto:{{attr:email}}">{{email}}</a>, or use the <a href="/contact/">quote form</a> and give the reference number and closing date. Please include:</p>
+        <ul class="check-list">
+          <li>The RFQ or tender reference number</li>
+          <li>The closing date and time, and how responses must be submitted</li>
+          <li>The specification or bill of quantities</li>
+          <li>Any compulsory briefing session or site visit</li>
+          <li>The returnable documents required (SBD or MBD forms)</li>
+        </ul>
+        <p>We confirm receipt, and tell you promptly if we will not be responding, so you can plan around it.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2>How we deliver</h2>
+      <div class="block-body">
+        <p>Each quotation states who delivers each part of the scope: Magubane Digital itself, or a named partner working under our management. Work is delivered to a written specification, tested with you, and handed over with documentation. <a href="/how-we-work/">How we work</a></p>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2>Conflicts of interest</h2>
+      <div class="block-body">
+        <p>If Magubane Digital writes or advises on a specification, it does not bid on that tender. Directors and their interests are declared on the SBD 4 or MBD 4 form with every bid.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--include:cta-->
